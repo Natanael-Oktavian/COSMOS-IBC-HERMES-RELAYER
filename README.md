@@ -11,6 +11,7 @@ cargo install ibc-relayer-cli --bin hermes --locked
 hermes version
 
 Add file ~/.hermes config.toml
+
 [global]
 log_level = "info"
 
