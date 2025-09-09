@@ -4,6 +4,7 @@
 Install Hermes manually
 
 curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+
 source $HOME/.cargo/env
 
 cargo install ibc-relayer-cli --bin hermes --locked
@@ -13,12 +14,17 @@ hermes version
 Add file ~/.hermes config.toml
 
 [global]
+
 log_level = "info"
 
 [mode]
+
 [mode.clients]
+
 enabled = true
+
 refresh = true
+
 misbehaviour = true
 
 [mode.connections]
@@ -97,7 +103,7 @@ hermes keys add --chain natancoin-1 --key-name relayer --mnemonic-file /Users/na
 hermes keys add --chain cyntiacoin-1 --key-name relayer --mnemonic-file /Users/natanaelmr/Desktop/BACKUP/natan/Go/cosmos/relayer/cyntiacoin.txt
 
 
-Send token to relayer
+# Send token to relayer
 
  natancoind tx bank send \
   natancoin14eztkklkglmgvqpu0uhycxmyzve99x66dpeqrv \
@@ -117,16 +123,23 @@ Send token to relayer
   --chain-id cyntiacoin-1 \
   -y
 
-Check balance 
+# Check balance 
+
 natancoind query bank balances $(natancoind keys show alice -a --keyring-backend test)
+
 natancoind query bank balances $(natancoind keys show relayer -a --keyring-backend test)
+
 cyntiacoind query bank balances $(cyntiacoind keys show Alice -a --keyring-backend test)
+
 cyntiacoind query bank balances $(cyntiacoind keys show relayer -a --keyring-backend test)
 
 
 hermes query clients —host-chain natancoin-1
+
 hermes query clients --host-chain cyntiacoin-1
+
 hermes query connections —chain natancoin-1
+
 hermes query connections --host-chain cyntiacoin-1
 
 Hermes start
@@ -144,16 +157,18 @@ hermes create channel \
   --b-port transfer
 
 
-Inspect channel on each chain
+# Inspect channel on each chain
 
 natancoind query ibc channel channels --output json
 cyntiacoind query ibc channel channels --output json
 
 
-Transfer dari natancoin ke cyntiacoin
+# Transfer from natancoin to cyntiacoin
 
- Prev balance
+Prev balance
+
 natancoin14eztkklkglmgvqpu0uhycxmyzve99x66dpeqrv : 1889600000000
+
 cyntiacoin1lthd50p2cnsn7nptc42msjmhfs8geecvfm26e2 : 1890600000000
 
 
@@ -165,8 +180,11 @@ natancoind tx ibc-transfer transfer transfer channel-0 \
   --gas auto --fees 4000000000unatancoin -y
 
  After balance
+ 
 natancoin14eztkklkglmgvqpu0uhycxmyzve99x66dpeqrv : 1889600000000 -> 1884600000000 (-5000 natancoin)
+
 cyntiacoin1lthd50p2cnsn7nptc42msjmhfs8geecvfm26e2 : 
+
 balances:
 - amount: "1000000000"
   denom: ibc/797EE030E206CBD3077E1E37B9D052C54624A9EF72C1188B998FB37202FCC67F
@@ -184,5 +202,7 @@ cyntiacoind tx ibc-transfer transfer transfer channel-0 \
 
 
 After balance
+
 natancoin14eztkklkglmgvqpu0uhycxmyzve99x66dpeqrv : 1884600000000 -> 1885600000000 (+1000 natancoin)
+
 cyntiacoin1lthd50p2cnsn7nptc42msjmhfs8geecvfm26e2 : 1886600000000 (unatancoin empty & - 4000 cyntiacoin for fee)
